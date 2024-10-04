@@ -44,6 +44,12 @@ function Navbar() {
             <Link to='/home' className='ul-links' onClick={closeMobileMenu}>
               Home
             </Link>
+            <Link to='/products' className='ul-links' onClick={closeMobileMenu}>
+              Products
+            </Link>
+            <Link to='/modify' className='ul-links' onClick={closeMobileMenu}>
+              Modify Products
+            </Link>
           </div>
 
           {/* ---------------- */}

@@ -5,6 +5,7 @@ import Footer from './components/Footer'
 import Login from './components/pages/Login';
 import Signup from './components/pages/Signup';
 import Home from './components/pages/Home';
+import Products from './components/pages/Products';
 
 const ComponentWrapper = () => {
     return (
@@ -13,8 +14,9 @@ const ComponentWrapper = () => {
                 <Navbar />
                 <Routes>
                     <Route path='/home' exact element={<Home />} />
-                    <Route path='/login' exact element={<Login />} />
-                    <Route path='/signup' exact element={<Signup />} />
+                    <Route path='/products' element={<Products />} />
+                    <Route path='/login' element={<Login />} />
+                    <Route path='/signup' element={<Signup />} />
                 </Routes>
                 <Footer />
             </div>
