@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './Login.css'; 
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 function Login() {
     const [email, setEmail] = useState('');
@@ -18,25 +19,20 @@ function Login() {
         }
 
         try {
-            const response = await fetch('http://localhost:5000/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email, password }),
+            const response = await axios.post('http://localhost:8000/api/login', {
+                email,
+                password
             });
-
-            if (!response.ok) {
+        
+            if (response.status !== 200) {
                 throw new Error('Login failed');
             }
-
-            const result = await response.json();
+        
+            const result = response.data;
             console.log(result);
-            navigate('/home');
-            // (redirect to home page)
-
+            navigate('/home'); // Redirect to home page
         } catch (error) {
-            setError(error.message);
+            setError(error.response?.data?.message || error.message);
         }
     };
 
