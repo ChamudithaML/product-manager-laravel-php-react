@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Signup.css';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 function Signup() {
     const [username, setUsername] = useState('');
@@ -25,28 +26,25 @@ function Signup() {
         }
 
         try {
-            const response = await fetch('http://localhost:5000/signup', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ username, email, password }),
+            const response = await axios.post('http://localhost:8000/api/register', {
+                name: username,
+                email: email,
+                password: password,
             });
 
-            if (!response.ok) {
-                console.log(response)
-                alert("Signup Failed")
+            if (response.status !== 201) {
+                console.log(response);
+                alert("Signup Failed");
                 throw new Error('Signup failed');
             }
 
-            const result = await response.json();
-            alert(result.message)
+            const result = response.data;
+            alert(result.message);
             console.log(result);
             resetFields();
-            // redirect to login
 
         } catch (error) {
-            setError(error.message);
+            setError(error.response ? error.response.data.message : error.message);
         }
     };
 
@@ -78,7 +76,7 @@ function Signup() {
                         id="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                    // required
+                        required
                     />
                 </div>
                 <div className="form-group">
@@ -101,7 +99,6 @@ function Signup() {
                         required
                     />
                 </div>
-                {/* {error && <p className="error">{error}</p>} */}
                 <button type="submit" className="btn">Sign Up</button>
             </form>
 
