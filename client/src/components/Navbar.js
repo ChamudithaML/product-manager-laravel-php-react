@@ -2,14 +2,12 @@ import React, { useEffect, useState } from 'react';
 import './Navbar.css';
 import { Link } from 'react-router-dom';
 
-function Navbar() {
+function Navbar({ logged, handleLogout }) {
   const [click, setClick] = useState(false);
   const [button, setButton] = useState(true);
 
   const handleClick = () => setClick(!click);
   const closeMobileMenu = () => setClick(false);
-
-
 
   const showButton = () => {
     if (window.innerWidth <= 960) {
@@ -30,6 +28,11 @@ function Navbar() {
       };
     }, []
   )
+
+  const loginLogOut = () => {
+    closeMobileMenu();
+    handleLogout();
+  }
 
   return (
     <nav className='navbar'>
@@ -55,8 +58,8 @@ function Navbar() {
           {/* ---------------- */}
 
           <div className='nav-end'>
-            <Link to='/login' className='ul-links' onClick={closeMobileMenu}>
-              Log In
+            <Link to='/login' className='ul-links' onClick={loginLogOut}>
+              {logged ? "Log Out" : "Log In"}
             </Link>
             <Link to='/signup' className='ul-links' onClick={closeMobileMenu}>
               Sign Up

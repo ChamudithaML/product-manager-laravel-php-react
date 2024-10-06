@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import './Login.css'; 
+import './Login.css';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-function Login() {
+function Login({ handleLog }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -23,14 +23,15 @@ function Login() {
                 email,
                 password
             });
-        
+
             if (response.status !== 200) {
                 throw new Error('Login failed');
             }
-        
+
             const result = response.data;
-            console.log(result);
-            navigate('/home'); // Redirect to home page
+            localStorage.setItem('token', result.token);
+            handleLog();
+            navigate('/home');
         } catch (error) {
             setError(error.response?.data?.message || error.message);
         }
